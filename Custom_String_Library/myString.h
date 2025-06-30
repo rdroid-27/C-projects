@@ -1,0 +1,215 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Return the size of String till first NULL character that appears (excluding the NULL Character).
+size_t StrLen(char *str)
+{
+    size_t length = 0;
+    if (str == NULL)
+        return length;
+    for (char *cursor = str; *cursor != '\0'; cursor = cursor + 1)
+        length++;
+    return length;
+}
+
+// Return the size of String till first NULL character that appears or if no NULL character is found then return the Max Size.
+size_t StrLen_Max(char *str, size_t MaxSize)
+{
+    size_t length = 0;
+    if (MaxSize < 0)
+        if (str == NULL)
+            return length;
+
+    char *cursor = str;
+    while (*cursor != '\0')
+    {
+        if (length == MaxSize)
+            return MaxSize;
+        cursor = cursor + 1;
+        length++;
+    }
+    return length;
+}
+
+// Copy the String from Source to Destination
+char *StrCpy(char *dest, char *src)
+{
+    if (src == NULL || dest == NULL)
+        return NULL;
+    else if (src == dest)
+        return src;
+    else
+    {
+        char *p = src, *q = dest;
+        while (*p != '\0')
+        {
+            *q = *p;
+            p++;
+            q++;
+        }
+        *q = '\0';
+
+        return dest;
+    }
+}
+
+// Compare two strings in lexicographical order.
+int StrCmp(char *lhs, char *rhs)
+{
+    if (lhs == NULL || rhs == NULL)
+        return 0;
+    while (*lhs != '\0' && *rhs != '\0')
+    {
+        if (*lhs - *rhs != 0)
+            return *lhs - *rhs;
+
+        lhs++;
+        rhs++;
+    }
+
+    return *lhs - *rhs;
+}
+
+// Return pointer to the first occurence of a given character in a given string.
+char *StrChr(char *str, char c)
+{
+    if (str == NULL)
+        return NULL;
+    char *cursor = str;
+    while (*cursor != '\0')
+    {
+        if (*cursor == c)
+            return cursor;
+
+        cursor++;
+    }
+    if (*cursor == '\0' && c == '\0')
+        return cursor;
+    else
+        return NULL;
+}
+
+// Allocate new memory and copy the given string and return the pointer to this newly copied string.
+char *StrDup(char *str)
+{
+    if (str == NULL)
+        return NULL;
+    char *newStr = malloc(StrLen(str) + 1);
+    char *p = str, *q = newStr;
+    while (*p != '\0')
+    {
+        *q = *p;
+        p++;
+        q++;
+    }
+    *q = '\0';
+    return newStr;
+}
+
+// Join two strings in a newly allocated memory and return its pointer.
+char *StrJoin(char *str1, char *str2)
+{
+    if (str1 == NULL && str2 == NULL)
+        return NULL;
+    else if (str1 == NULL)
+        return StrDup(str2);
+    else if (str2 == NULL)
+        return StrDup(str1);
+    char *newStr = malloc(StrLen(str1) + StrLen(str2) + 1);
+    char *p = str1, *q = newStr;
+    while (*p != '\0')
+    {
+        *q = *p;
+        q++;
+        p++;
+    }
+    p = str2;
+    while (*p != '\0')
+    {
+        *q = *p;
+        q++;
+        p++;
+    }
+    *q = '\0';
+    return newStr;
+}
+
+// Split the String into Character Array by a Delimiter
+char **StrSplit(char *str, char dl)
+{
+    /*Check for NULL input.*/
+    if (str == NULL)
+        return NULL;
+
+    unsigned long long int token_count = 0;
+    unsigned long long int token_index = 0;
+
+    int deLimiter_found = 0;
+
+    /*Count Number of Tokens/Substrings.*/
+    for (char *cursor = str; *cursor != '\0'; cursor++)
+    {
+        if (*cursor == dl)
+        {
+            deLimiter_found = 1;
+            token_count++;
+        }
+    }
+    token_count++;
+
+    /*Allocate Space for Array of Strings.*/
+    char **split = malloc((token_count + 1) * sizeof(char *));
+
+    /*Check for Empty String*/
+    if (*str == '\0')
+    {
+        split[0] = NULL;
+        return split;
+    }
+
+    /*Check for no Delimiters in the string.*/
+    if (!deLimiter_found)
+    {
+        split[0] = malloc(StrLen(str) + 1);
+        StrCpy(split[0], str);
+        split[1] = NULL;
+        return split;
+    }
+
+    /*Start with splitting the String.*/
+    char *start = str, *end = NULL;
+
+    for (char *cursor = str; *cursor != '\0'; cursor++)
+    {
+        if (*cursor == dl)
+        {
+            end = cursor;
+            char *substr = malloc(end - start + 1);
+            char *temp_substr = substr;
+            for (char *p = start; p != end; p++)
+            {
+                *temp_substr = *p;
+                temp_substr++;
+            }
+            *temp_substr = '\0';
+            split[token_index++] = substr;
+            start = end + 1;
+        }
+    }
+    end = str + StrLen(str);
+
+    /*Copy the Remaining String after the last delimiter*/
+    char *substr = malloc(end - start + 1);
+    char *temp_substr = substr;
+    for (char *cursor = start; *cursor != '\0'; cursor++)
+    {
+        *temp_substr = *cursor;
+        temp_substr++;
+    }
+    *temp_substr = '\0';
+    split[token_index++] = substr;
+
+    split[token_index] = NULL;
+
+    return split;
+}
