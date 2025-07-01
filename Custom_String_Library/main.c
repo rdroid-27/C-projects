@@ -16,9 +16,12 @@ int main()
     // char *s = StrJoin(big, "END");
     // printf("%c...%s\n", s[0], s + 996); // Should show aaaa...END
 
-    char **res = StrSplit("a b  c", ' ');
-    for (int i = 0; res[i] != NULL; i++)
-        printf("[%s]\n", res[i]);
+    // char **res = StrSplit("a b  c", ' ');
+    // for (int i = 0; res[i] != NULL; i++)
+    //     printf("[%s]\n", res[i]);
+
+    char *res = StrTrim("   hello   ");
+    printf("[%s]\n", res); // ➤ [hello]
 
     free(res);
     return 0;

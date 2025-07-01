@@ -213,3 +213,40 @@ char **StrSplit(char *str, char dl)
 
     return split;
 }
+
+// Trim the given String by removing leading and trailing spaces from a string.
+
+char *StrTrim(char *str)
+{
+    /*Check for NULL string*/
+    if (str == NULL)
+        return NULL;
+
+    char *start = NULL, *end = NULL;
+
+    /*Check for first non space character.*/
+    char *cursor = str;
+    while (*cursor != '\0' && *cursor == ' ')
+        cursor++;
+
+    start = cursor;
+
+    /*Check for last non space character.*/
+    while (*cursor != '\0' && *cursor != ' ')
+        cursor++;
+
+    end = cursor;
+
+    char *trim = malloc(end - start + 1 + 1);
+    char *trim_temp = trim;
+    cursor = start;
+
+    /*Copy the string without spaces.*/
+    while (cursor <= end)
+    {
+        *trim_temp++ = *cursor++;
+    }
+    *trim_temp = '\0';
+
+    return trim;
+}
