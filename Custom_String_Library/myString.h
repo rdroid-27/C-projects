@@ -229,24 +229,79 @@ char *StrTrim(char *str)
     while (*cursor != '\0' && *cursor == ' ')
         cursor++;
 
+    /*If string don't have non space characters.*/
+    if (*cursor == '\0')
+    {
+        char *trim = malloc(1);
+        trim[0] = '\0';
+        return trim;
+    }
+
     start = cursor;
 
-    /*Check for last non space character.*/
-    while (*cursor != '\0' && *cursor != ' ')
+    /*Check for last non space character. Go to end of string and traverse in reverse till non space character is found.*/
+    while (*cursor != '\0')
         cursor++;
 
-    end = cursor;
+    end = cursor - 1;
+
+    while (*end == ' ')
+        end--;
 
     char *trim = malloc(end - start + 1 + 1);
     char *trim_temp = trim;
-    cursor = start;
 
     /*Copy the string without spaces.*/
-    while (cursor <= end)
+    while (start <= end)
     {
-        *trim_temp++ = *cursor++;
+        *trim_temp++ = *start++;
     }
     *trim_temp = '\0';
 
     return trim;
+}
+
+// Reverse the string in its place. No extra memory used.
+void StrRev(char *str)
+{
+    if (str == NULL)
+        return;
+
+    char *start = str, *end = NULL;
+
+    /*Find the end of string*/
+    while (*start != '\0')
+        start++;
+
+    end = start - 1;
+    start = str;
+
+    char temp;
+    /*Swap start and end, till the whole string is reversed.*/
+    while (start < end)
+    {
+        temp = *start;
+        *start = *end;
+        *end = temp;
+        start++;
+        end--;
+    }
+}
+
+// Replace an occurance of a character with another input character.
+void StrReplace(char *str, char oldChar, char newChar)
+{
+    if (oldChar == newChar)
+        return;
+    else if (str == NULL)
+        return;
+    char *cursor = str;
+    while (*cursor != '\0')
+    {
+        if (*cursor == oldChar)
+        {
+            *cursor = newChar;
+        }
+        cursor++;
+    }
 }
