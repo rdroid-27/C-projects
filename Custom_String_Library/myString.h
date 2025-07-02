@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 // Return the size of String till first NULL character that appears (excluding the NULL Character).
 size_t StrLen(char *str)
@@ -304,4 +305,49 @@ void StrReplace(char *str, char oldChar, char newChar)
         }
         cursor++;
     }
+}
+
+// Convert input string to Integer. Parse Digits from Left to Right till a non-digit character is found.
+int StrToInt(char *str)
+{
+    int isPositive = 0;
+    int result = 0;
+
+    /*Check for first digit.*/
+    char *cursor = str;
+    while (*cursor != '\0' && *cursor != '-' && *cursor != '+' && (*cursor < '0' || *cursor > '9'))
+    {
+
+        cursor++;
+    }
+
+    if (*cursor == '-')
+    {
+        cursor++;
+        isPositive = -1;
+    }
+    else if (*cursor == '+')
+    {
+        isPositive = 1;
+        cursor++;
+    }
+    else
+        isPositive = 1;
+
+    /*Start with the conversion to integer.*/
+    while (*cursor >= '0' && *cursor <= '9')
+    {
+        /*Check for Overflow*/
+        int digit = *cursor - '0';
+        if (isPositive == 1 && result > (INT_MAX - digit) / 10)
+            return INT_MAX;
+
+        if (isPositive == -1 && result > (-(INT_MIN + digit)) / 10)
+            return INT_MIN;
+
+        result = (result * 10) + (digit);
+        cursor++;
+    }
+
+    return (result * isPositive);
 }
