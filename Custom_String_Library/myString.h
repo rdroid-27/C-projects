@@ -351,3 +351,45 @@ int StrToInt(char *str)
 
     return (result * isPositive);
 }
+
+// Find substring in a string.
+char *StrStr(char *str, char *sub)
+{
+    if (str == NULL || sub == NULL)
+        return NULL;
+    if (*sub == '\0')
+        return str;
+
+    char *strFound = NULL;
+    char *cursor = str;
+
+    /*Check for occurence of first character of substring.*/
+    while (*cursor != '\0')
+    {
+        if (*cursor != *sub)
+            cursor++;
+        else
+        {
+            /*Substring might be present.*/
+            strFound = cursor;
+            char *sub_cursor = sub;
+            while (*sub_cursor != '\0')
+            {
+                if (*cursor == *sub_cursor)
+                {
+                    cursor++;
+                    sub_cursor++;
+                }
+                else
+                    break;
+            }
+            cursor = strFound;
+            /*SubString Found!*/
+            if (*sub_cursor == '\0')
+                return strFound;
+
+            cursor++;
+        }
+    }
+    return NULL;
+}
