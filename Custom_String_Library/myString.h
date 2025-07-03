@@ -426,3 +426,24 @@ char *StrStr(char *str, char *sub)
     }
     return NULL;
 }
+
+// Concatinate two strings
+char *StrCat(char *dest, char *src)
+{
+    if (src == NULL || dest == NULL)
+        return NULL;
+
+    char *cursorD = dest;
+    // char *cursorS = src;
+
+    while (*cursorD != '\0')
+        cursorD++;
+
+    while (*src != '\0')
+    {
+        *cursorD++ = *src++;
+    }
+    *cursorD = '\0';
+
+    return dest;
+}
