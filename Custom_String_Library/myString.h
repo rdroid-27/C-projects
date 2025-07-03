@@ -54,6 +54,39 @@ char *StrCpy(char *dest, char *src)
     }
 }
 
+// Copy String from Source to Destination with fixed length. Safer version of StrCpy. Strict size copy with no NULL termination (in some cases where source lenght is equal to n).
+char *StrNCpy(char *dest, char *src, size_t n)
+{
+    if (src == NULL || dest == NULL)
+        return NULL;
+    else if (src == dest)
+    {
+        //
+    }
+    else
+    {
+        size_t srcLen = StrLen(src);
+        char *p = src, *q = dest;
+        while (*p != '\0' && n > 0)
+        {
+            *q = *p;
+            p++;
+            q++;
+            n--;
+        }
+        if (n != 0)
+        {
+            while (n > 0)
+            {
+                *q = '\0';
+                q++;
+                n--;
+            }
+        }
+        return dest;
+    }
+}
+
 // Compare two strings in lexicographical order.
 int StrCmp(char *lhs, char *rhs)
 {
