@@ -447,3 +447,37 @@ char *StrCat(char *dest, char *src)
 
     return dest;
 }
+
+// String Tokenizer: Splits a string into tokens by delimiters — but remembers state across calls (static pointer).
+char *StrTok(char *str, char dl)
+{
+    /*Check for NULL input.*/
+    static char *start = NULL;
+    if (str != NULL)
+        start = str;
+    if (start == NULL)
+        return NULL;
+
+    // Skip Leading Delimiters
+    while (*start == dl)
+        start++;
+
+    // Check if input string ends with delimiter, then return NULL.
+    if (*start == '\0')
+        return NULL;
+
+    char *token = start;
+
+    while (*start != dl && *start != '\0')
+        start++;
+
+    if (*start != '\0')
+        *(start++) = '\0';
+
+    else
+    { // End of string is reached.
+        start = NULL;
+    }
+
+    return token;
+}
