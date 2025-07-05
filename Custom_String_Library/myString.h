@@ -481,3 +481,52 @@ char *StrTok(char *str, char dl)
 
     return token;
 }
+
+// Convert the given HEX string to Integer.
+unsigned int StrHexToInt(char *str)
+{
+    unsigned int result = 0;
+    if (str == NULL)
+        return result;
+
+    char *cursor = str;
+
+    while (*cursor != '\0')
+    {
+        if (*cursor > '0' && *cursor <= '9')
+            break;
+        else if (*cursor >= 'A' && *cursor <= 'F')
+            break;
+        else if (*cursor >= 'a' && *cursor <= 'f')
+            break;
+        else
+            cursor++;
+    }
+
+    /*No digits in the string*/
+    if (*cursor == '\0')
+        return result;
+
+    /*Start converting till the string is valid.*/
+    while (*cursor != '\0')
+    {
+        unsigned int digit;
+
+        if (*cursor >= '0' && *cursor <= '9')
+            digit = *cursor - '0';
+        else if (*cursor >= 'A' && *cursor <= 'F')
+            digit = 10 + (*cursor - 'A');
+        else if (*cursor >= 'a' && *cursor <= 'f')
+            digit = 10 + (*cursor - 'a');
+        else
+            break;
+
+        // Overflow check before updating result
+        if (result > (UINT_MAX - digit) / 16)
+            return UINT_MAX;
+
+        result = result * 16 + digit;
+        cursor++;
+    }
+    return result;
+}
