@@ -1,28 +1,76 @@
+// main.c (Test Framework)
 #include <stdio.h>
 #include "myString.h"
-#include <string.h>
-#include <assert.h>
-
-void display(int a, int b)
-{
-    printf("%d %d \n", a, b);
-}
 
 int main()
 {
-    // char big[1000];
-    // memset(big, 'a', 999);
-    // big[999] = '\0';
-    // char *s = StrJoin(big, "END");
-    // printf("%c...%s\n", s[0], s + 996); // Should show aaaa...END
+    printf("--- Testing Custom String Library ---\n\n");
 
-    // char **res = StrSplit("a b  c", ' ');
-    // for (int i = 0; res[i] != NULL; i++)
-    //     printf("[%s]\n", res[i]);
+    // StrLen
+    printf("StrLen: %zu\n", StrLen("Hello"));
 
-    char *res = StrTrim("   hello   ");
-    printf("[%s]\n", res); // ➤ [hello]
+    // StrCpy
+    char buffer1[20];
+    StrCpy(buffer1, "Test");
+    printf("StrCpy: %s\n", buffer1);
 
-    free(res);
+    // StrCmp
+    printf("StrCmp: %d\n", StrCmp("abc", "abd"));
+
+    // StrChr
+    printf("StrChr: %c\n", *StrChr("abc", 'b'));
+
+    // StrDup
+    char *dup = StrDup("copy");
+    printf("StrDup: %s\n", dup);
+
+    // StrJoin
+    char *joined = StrJoin("first", "second");
+    printf("StrJoin: %s\n", joined);
+
+    // StrSplit
+    char **tokens = StrSplit("a,b,c", ',');
+    printf("StrSplit: ");
+    for (int i = 0; tokens[i] != NULL; i++)
+        printf("[%s] ", tokens[i]);
+    printf("\n");
+
+    // StrTrim
+    printf("StrTrim: '%s'\n", StrTrim("   hello world  "));
+
+    // StrRev
+    char revStr[] = "reverse";
+    StrRev(revStr);
+    printf("StrRev: %s\n", revStr);
+
+    // StrReplace
+    char replStr[] = "abcabc";
+    StrReplace(replStr, 'a', 'x');
+    printf("StrReplace: %s\n", replStr);
+
+    // StrToInt
+    printf("StrToInt: %ld\n", StrToInt("  -123abc"));
+
+    // StrStr
+    printf("StrStr: %s\n", StrStr("hello world", "world"));
+
+    // StrNCpy
+    char buffer2[10];
+    StrNCpy(buffer2, "abcde", 3);
+    printf("StrNCpy: %s\n", buffer2);
+
+    // StrTok
+    char str[] = "a:b:c";
+    char *tok = StrTok(str, ':');
+    while (tok)
+    {
+        printf("StrTok: %s\t", tok);
+        tok = StrTok(NULL, ':');
+    }
+    printf("\n");
+
+    // StrHexToInt
+    printf("StrHexToInt: %u\n", StrHexToInt("0xC0FFEE"));
+
     return 0;
 }
