@@ -5,9 +5,10 @@ OBJ = $(SRC:.c=.o)
 TARGET = volatilefs
 
 all: $(TARGET)
+	./$(TARGET)
 
 $(TARGET): $(OBJ)
-	$(CC) $(OBJ) -o $@
+	$(CC) $(CFLAGS) -o $@ $^
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
